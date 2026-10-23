@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Klicklotse – Live-Vorschau zur Broschüre</title>
+<meta name="description" content="Entdecken Sie unsere 4 Design-Editionen für moderne Schulwebsites. Alle Funktionen, frei kombinierbar für Ihre Schulform." />
+<style>
+:root {
+  --bg: #ffffff;
+  --ink: #000000;
+  --ink-muted: #555555;
+  --line: #000000;
+  --line-soft: #e0e0e0;
+  --surface: #f8f8f8;
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.5;
+  padding-top: var(--safe-t);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { margin: 0; font-weight: 700; letter-spacing: -0.02em; }
+p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; }
+
+.skip-link {
+  position: absolute; left: -999px; top: 0;
+  background: var(--ink); color: #fff; padding: .7rem 1.2rem; z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+/* TOPBAR */
+.topbar {
+  position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(5px);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.5rem;
+}
+.topbar strong { font-size: 1.15rem; letter-spacing: -0.03em; }
+.topbar .tag { font-size: .8rem; color: var(--ink-muted); margin-left: .8rem; padding-left: .8rem; border-left: 1px solid var(--line-soft); }
+.topbar-cta { display: none; align-items: center; gap: 1.2rem; }
+.topbar-cta a { font-size: .88rem; font-weight: 600; }
+.topbar-cta .book { background: var(--ink); color: #fff; padding: .6rem 1.1rem; transition: opacity .15s; }
+.topbar-cta .book:hover { opacity: 0.85; }
+
+/* WRAPPER */
+.wrap { max-width: 1120px; margin: 0 auto; padding: 3.5rem 1.5rem 5rem; }
+
+/* HERO */
+.hero { border-bottom: 2px solid var(--line); padding-bottom: 2.5rem; margin-bottom: 2.5rem; }
+.hero-kicker { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .8rem; display: inline-block; background: var(--ink); color: #fff; padding: .2rem .6rem; }
+.hero h1 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.1; max-width: 24ch; }
+.hero p { color: #333; font-size: 1.1rem; max-width: 58ch; margin-top: 1.1rem; }
+
+/* TRUST BAR (Sofortige Sichtbarkeit der Kern-USPs) */
+.trust-bar {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem; margin-bottom: 3rem; padding: 1.2rem; background: var(--surface);
+  border: 1px solid var(--line);
+}
+.trust-item { font-size: .85rem; }
+.trust-item strong { display: block; font-size: .95rem; margin-bottom: .15rem; }
+.trust-item span { color: var(--ink-muted); }
+
+/* SECTION HEADER */
+.sec-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 1rem; }
+.sec-head h2 { font-size: 1.4rem; }
+.sec-head p { font-size: .9rem; color: var(--ink-muted); }
+
+/* CARDS GRID */
+.cards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0; border-top: 1px solid var(--line); border-left: 1px solid var(--line);
+  margin-bottom: 4rem;
+}
+.card {
+  background: #fff; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  padding: 1.6rem; text-align: left; cursor: pointer;
+  display: flex; flex-direction: column; justify-content: space-between;
+  gap: 1.2rem; transition: background .15s ease, color .15s ease;
+  position: relative;
+}
+.card:hover, .card:focus-visible { background: var(--ink); color: #fff; }
+
+/* MINI WIREFRAME IN CARD (Visueller Anker in S/W) */
+.wireframe {
+  height: 64px; border: 1px solid var(--line); padding: 6px;
+  display: flex; flex-direction: column; gap: 4px; background: var(--surface);
+  transition: border-color .15s, background .15s;
+}
+.card:hover .wireframe { border-color: #555; background: #1a1a1a; }
+.wf-bar { height: 6px; width: 40%; background: var(--ink); }
+.card:hover .wf-bar { background: #fff; }
+.wf-grid { display: grid; gap: 4px; flex: 1; }
+.wf-grid.g-dialog { grid-template-columns: 2fr 1fr; }
+.wf-grid.g-struktur { grid-template-columns: 1fr 1fr 1fr; }
+.wf-grid.g-praxis { grid-template-columns: 1fr 1fr; }
+.wf-grid.g-campus { grid-template-columns: 1fr 2fr; }
+.wf-box { border: 1px solid #999; }
+
+.card-num { font-size: .75rem; font-family: monospace; color: var(--ink-muted); }
+.card:hover .card-num { color: #aaa; }
+
+.card h3 { font-size: 1.3rem; margin-top: .2rem; }
+.card .desc { font-size: .88rem; color: #333; line-height: 1.45; margin-top: .5rem; }
+.card:hover .desc { color: #ddd; }
+
+.fit-box {
+  background: var(--surface); padding: .65rem .8rem; border-left: 2px solid var(--ink);
+  font-size: .78rem; line-height: 1.35; color: #222;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.fit-box strong { display: block; text-transform: uppercase; font-size: .7rem; letter-spacing: .04em; margin-bottom: .2rem; }
+.card:hover .fit-box { background: #222; color: #eee; border-left-color: #fff; }
+
+.card .go {
+  font-size: .85rem; font-weight: 700; padding-top: .9rem;
+  border-top: 1px solid var(--line-soft); display: flex; justify-content: space-between;
+}
+.card:hover .go { border-top-color: #444; }
+
+/* MODULE MATRIX (Beweist: Jede Schule bekommt alles) */
+.modules-box {
+  border: 2px solid var(--line); padding: 2rem; margin-bottom: 4rem;
+}
+.modules-head { max-width: 60ch; margin-bottom: 1.8rem; }
+.modules-head h2 { font-size: 1.5rem; margin-bottom: .5rem; }
+.modules-head p { font-size: .95rem; color: #333; }
+.modules-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem; border-top: 1px solid var(--line-soft); padding-top: 1.5rem;
+}
+.mod-item { font-size: .88rem; }
+.mod-item strong { display: block; margin-bottom: .2rem; font-size: .95rem; }
+.mod-item span { color: var(--ink-muted); font-size: .83rem; }
+
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+
+/* FOOTER */
+.foot {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1.5rem; align-items: flex-end;
+  border-top: 1px solid var(--line); padding-top: 2.2rem;
+}
+.foot p { font-size: .9rem; color: #333; max-width: 46ch; }
+.foot .actions { display: flex; gap: .8rem; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: .85rem 1.4rem; font-weight: 700; font-size: .88rem;
+  cursor: pointer; border: 1px solid var(--line); text-decoration: none;
+}
+.btn-solid { background: var(--ink); color: #fff; }
+.btn-outline { background: #fff; color: var(--ink); }
+
+.sticky-cta {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 40;
+  background: #fff; border-top: 1px solid var(--line); padding: .7rem; gap: .6rem;
+  padding-bottom: calc(.7rem + var(--safe-b));
+}
+.sticky-cta .btn { flex: 1; padding: .8rem; }
+
+/* DRAWER & BACKDROP */
+.backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 40;
+  opacity: 0; pointer-events: none; transition: opacity .2s ease;
+}
+.backdrop.show { opacity: 1; pointer-events: auto; }
+
+.drawer {
+  position: fixed; top: 0; right: 0; width: 100%; max-width: 460px; height: 100vh;
+  background: #fff; border-left: 2px solid var(--line); z-index: 50;
+  transform: translateX(105%); transition: transform .25s ease;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 1.8rem 1.8rem calc(1.8rem + var(--safe-b)); overflow-y: auto;
+}
+.drawer.open { transform: translateX(0); }
+
+.drawer-head {
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--line); padding-bottom: 1rem; margin-bottom: 1.2rem;
+}
+.drawer-badge { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; background: var(--surface); padding: .25rem .6rem; border: 1px solid var(--line); }
+.drawer-close { background: none; border: none; font-size: 1.3rem; cursor: pointer; padding: .2rem .4rem; }
+
+.drawer h2 { font-size: 1.5rem; margin-bottom: .5rem; }
+.drawer-desc { font-size: .9rem; color: #333; line-height: 1.5; margin-bottom: 1.4rem; }
+
+.panel { border: 1px solid var(--line); padding: 1.1rem; margin-bottom: 1.2rem; background: var(--surface); }
+.panel h3, .feat h3 { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-bottom: .6rem; color: #444; }
+.panel ul, .feat ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .5rem; font-size: .88rem; }
+.panel li::before { content: "✓ "; font-weight: 700; }
+
+.feat { margin-bottom: 1.4rem; }
+.feat li::before { content: "+ "; font-weight: 700; }
+
+.drawer-note { font-size: .8rem; color: var(--ink-muted); border-top: 1px solid var(--line-soft); padding-top: .8rem; margin-bottom: 1.4rem; }
+
+.drawer-actions { display: flex; flex-direction: column; gap: .7rem; }
+.btn-demo {
+  background: var(--ink); color: #fff; padding: 1rem; font-size: .95rem;
+  font-weight: 700; text-align: center; text-transform: uppercase; letter-spacing: .02em;
+}
+.btn-demo:hover { background: #222; }
+
+@media (min-width: 641px) { .topbar-cta { display: flex; } }
+@media (max-width: 640px) {
+  .sticky-cta { display: flex; }
+  .wrap { padding-bottom: 5.5rem; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#hauptinhalt">Zum Hauptinhalt springen</a>
+
+<div class="topbar">
+  <div><strong>Klicklotse</strong><span class="tag">Interaktive Demo-Broschüre</span></div>
+  <div class="topbar-cta">
+    <a class="call" href="tel:+4923711234567">02371 123 4567</a>
+    <a class="book" href="#kontakt">Beratung buchen</a>
+  </div>
+</div>
+
+<main id="hauptinhalt" class="wrap">
+
+  <header class="hero">
+    <span class="hero-kicker">Ein System · Vier Stilrichtungen</span>
+    <h1>Welcher Website-Charakter passt zu Ihrer Schule?</h1>
+    <p>Schulen brauchen im Kern dieselben starken Funktionen – aber einen unterschiedlichen Auftritt. Wählen Sie den Stil, der Ihnen optisch am besten gefällt. <strong>Alle Module sind in jedem Design frei kombinierbar.</strong></p>
+  </header>
+
+  <div class="trust-bar" aria-label="Basis-Garantien">
+    <div class="trust-item">
+      <strong>&lt; 5 Min. Pflege/Woche</strong>
+      <span>Optimiert für Lehrkräfte & Sekretariat</span>
+    </div>
+    <div class="trust-item">
+      <strong>100 % DSGVO & Hosting in DE</strong>
+      <span>Rechtssicher ohne Drittanbieter-Fallen</span>
+    </div>
+    <div class="trust-item">
+      <strong>Barrierefrei (BITV 2.0)</strong>
+      <span>Pflichtkonform für öffentliche Träger</span>
+    </div>
+    <div class="trust-item">
+      <strong>Frei kombinierbar</strong>
+      <span>Jede Funktion in jedem Design möglich</span>
+    </div>
+  </div>
+
+  <section aria-label="Design-Editionen">
+    <div class="sec-head">
+      <h2>1. Wählen Sie Ihren Design-Schwerpunkt</h2>
+      <p>Klicken Sie auf eine Edition für Funktionsdetails & Live-Vorschau</p>
+    </div>
+
+    <div class="cards">
+      
+      <button type="button" class="card" data-demo="nahbar">
+        <div>
+          <div class="wireframe" aria-hidden="true">
+            <div class="wf-bar"></div>
+            <div class="wf-grid g-dialog"><div class="wf-box"></div><div class="wf-box"></div></div>
+          </div>
+          <span class="card-num">EDITION 01</span>
+          <h3>Nahbar &amp; Dialog</h3>
+          <p class="desc">Warmherziger, extrem übersichtlicher Aufbau. Fokus auf schnelle Eltern-Informationen, Krankmeldung und Betreuung auf den ersten Blick.</p>
+        </div>
+        <div>
+          <div class="fit-box">
+            <strong>Besonders geeignet für:</strong>
+            Grundschulen, Förderschulen &amp; familiäre Schulstandorte
+          </div>
+          <div class="go"><span>Vorschau &amp; Details</span><span>→</span></div>
+        </div>
+      </button>
+
+      <button type="button" class="card" data-demo="praxis">
+        <div>
+          <div class="wireframe" aria-hidden="true">
+            <div class="wf-bar"></div>
+            <div class="wf-grid g-praxis"><div class="wf-box"></div><div class="wf-box"></div></div>
+          </div>
+          <span class="card-num">EDITION 02</span>
+          <h3>Praxis &amp; Schulleben</h3>
+          <p class="desc">Lebendige Kachel-Optik. Zeigt AGs, Projekte, Berufsorientierung und das aktuelle Schulleben prominent auf der Startseite.</p>
+        </div>
+        <div>
+          <div class="fit-box">
+            <strong>Besonders geeignet für:</strong>
+            Realschulen, Gesamtschulen &amp; Sekundarschulen
+          </div>
+          <div class="go"><span>Vorschau &amp; Details</span><span>→</span></div>
+        </div>
+      </button>
+
+      <button type="button" class="card" data-demo="struktur">
+        <div>
+          <div class="wireframe" aria-hidden="true">
+            <div class="wf-bar"></div>
+            <div class="wf-grid g-struktur"><div class="wf-box"></div><div class="wf-box"></div><div class="wf-box"></div></div>
+          </div>
+          <span class="card-num">EDITION 03</span>
+          <h3>Struktur &amp; Fokus</h3>
+          <p class="desc">Aufgeräumter Magazin-Stil für große Informationsmengen. Klare Führung durch viele Fachschaften, Stufen und Termine.</p>
+        </div>
+        <div>
+          <div class="fit-box">
+            <strong>Besonders geeignet für:</strong>
+            Gymnasien, große Gesamtschulen &amp; Schulverbünde
+          </div>
+          <div class="go"><span>Vorschau &amp; Details</span><span>→</span></div>
+        </div>
+      </button>
+
+      <button type="button" class="card" data-demo="campus">
+        <div>
+          <div class="wireframe" aria-hidden="true">
+            <div class="wf-bar"></div>
+            <div class="wf-grid g-campus"><div class="wf-box"></div><div class="wf-box"></div></div>
+          </div>
+          <span class="card-num">EDITION 04</span>
+          <h3>Campus &amp; Karriere</h3>
+          <p class="desc">Moderne Portal-Architektur mit Filter-Logik. Führt Bewerber, Schüler und Ausbildungsbetriebe ohne Umwege zum richtigen Bildungsgang.</p>
+        </div>
+        <div>
+          <div class="fit-box">
+            <strong>Besonders geeignet für:</strong>
+            Berufskollegs, Fachschulen &amp; Weiterbildungskollegs
+          </div>
+          <div class="go"><span>Vorschau &amp; Details</span><span>→</span></div>
+        </div>
+      </button>
+
+    </div>
+  </section>
+
+  <section class="modules-box" aria-label="Gemeinsame Funktionen">
+    <div class="modules-head">
+      <h2>2. In jeder Edition verfügbar: Das Schul-Fundament</h2>
+      <p>Sie müssen sich nicht zwischen Design und Funktion entscheiden. Egal welche optische Edition Sie wählen – diese Module zur Entlastung Ihres Sekretariats sind immer an Bord:</p>
+    </div>
+    <div class="modules-grid">
+      <div class="mod-item">
+        <strong>Digitale Krankmeldung</strong>
+        <span>Weniger morgendliche Anrufe im Sekretariat durch sichere Online-Formulare.</span>
+      </div>
+      <div class="mod-item">
+        <strong>Termin- &amp; Ferienkalender</strong>
+        <span>Mit 1-Klick-Abo (iCal) für das Smartphone der Eltern und Lehrkräfte.</span>
+      </div>
+      <div class="mod-item">
+        <strong>Geschützter interner Bereich</strong>
+        <span>Passwortschutz für Elternbriefe, Vertretungspläne oder Kollegiums-Dokumente.</span>
+      </div>
+      <div class="mod-item">
+        <strong>Spamsichere Kontakte</strong>
+        <span>Lehrkräfte erreichbar machen, ohne private E-Mail-Adressen offenzulegen.</span>
+      </div>
+    </div>
+  </section>
+
+  <footer id="kontakt" class="foot">
+    <p>Sie möchten zwei Stile kombinieren oder Ihre Schulfarben in einer Demo sehen? Wir passen jedes Layout individuell an Ihr Schulprofil an.</p>
+    <div class="actions">
+      <a href="tel:+4923711234567" class="btn btn-outline">02371 123 4567</a>
+      <a href="mailto:beratung@klicklotse.de" class="btn btn-solid">Unverbindliche Beratung</a>
+    </div>
+  </footer>
+</main>
+
+<div class="sticky-cta">
+  <a href="tel:+4923711234567" class="btn btn-outline">Anrufen</a>
+  <a href="#kontakt" class="btn btn-solid">Beratung buchen</a>
+</div>
+
+<div id="backdrop" class="backdrop"></div>
+
+<aside id="drawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+  <div>
+    <div class="drawer-head">
+      <span id="drawer-badge" class="drawer-badge">Edition</span>
+      <button id="drawer-close" type="button" class="drawer-close" aria-label="Schließen">✕</button>
+    </div>
+    
+    <h2 id="drawer-title">Edition</h2>
+    <p id="drawer-description" class="drawer-desc"></p>
+
+    <div class="panel">
+      <h3>Warum Schulleitungen diesen Stil wählen</h3>
+      <ul id="drawer-benefits"></ul>
+    </div>
+
+    <div class="feat">
+      <h3>In dieser Demo gezeigte Schwerpunkte</h3>
+      <ul id="drawer-features"></ul>
+    </div>
+
+    <p class="drawer-note">
+      <strong>Gut zu wissen:</strong> Gefällt Ihnen dieses Layout, aber Sie benötigen ein Modul aus einer anderen Demo (z. B. den Bildungsgang-Finder oder die OGS-Übersicht)? Wir schalten jede Funktion kostenfrei für Sie frei.
+    </p>
+  </div>
+
+  <div class="drawer-actions">
+    <a href="#" id="drawer-demo-btn" target="_blank" rel="noopener" class="btn btn-demo">
+      LIVE-DEMO IM BROWSER ÖFFNEN ↗
+    </a>
+    <a href="#kontakt" id="drawer-cta" class="btn btn-outline">Dieses Design anfragen</a>
+  </div>
+</aside>
+
+<script>
+const demoData = {
+  nahbar: {
+    badge: "Edition 01 · Nahbar & Dialog",
+    title: "Nahbar & Dialog",
+    description: "Fokus auf Vertrauen, schnelle Orientierung auf dem Smartphone und barrierearme Elternkommunikation. Ideal, wenn Eltern schnell eine Krankmeldung abgeben oder Betreuungszeiten prüfen wollen.",
+    benefits: [
+      "Eltern finden Krankmeldung & Telefonnummer in unter 3 Sekunden",
+      "Elternbriefe & aktuelle Hinweise in 2 Minuten vom Sekretariat veröffentlicht",
+      "Einladende Optik für Schulanfänger-Eltern"
+    ],
+    features: [
+      "Prominenter Schnellzugriff (Krankmeldung & Kontakt)",
+      "OGS-, Ganztags- & Betreuungsübersicht",
+      "Passwortgeschützte Fotogalerie für Klassenaktionen",
+      "Downloadcenter für Elternbriefe & Formulare"
+    ],
+    url: "https://rec.basketball.nrw/demo1"
+  },
+  praxis: {
+    badge: "Edition 02 · Praxis & Schulleben",
+    title: "Praxis & Schulleben",
+    description: "Zeigt auf den ersten Blick, wie aktiv Ihre Schule ist. Perfekt für Schulen mit starkem Fokus auf Berufsorientierung, AGs, Wettbewerbe und Kooperationspartner aus der Region.",
+    benefits: [
+      "Macht Ihr Engagement bei Berufswahl & Projekten sofort sichtbar",
+      "Entlastet bei der Organisation von Elternsprechtagen & Praktika",
+      "Motivierender Auftritt für neue Schülerinnen und Schüler"
+    ],
+    features: [
+      "Berufsorientierungs- & Praktikums-Hub",
+      "Elternsprechtag-Buchungsmodul",
+      "Dynamisches Raster für AGs & Schulprojekte",
+      "Digitales Schwarzes Brett"
+    ],
+    url: "https://rec.basketball.nrw/demo2"
+  },
+  struktur: {
+    badge: "Edition 03 · Struktur & Fokus",
+    title: "Struktur & Fokus",
+    description: "Wenn viele Fachbereiche, Stufenkoordinatoren und Termine unter ein Dach müssen: Diese Edition ordnet große Informationsmengen so klar, dass sich niemand verklickt.",
+    benefits: [
+      "Klare Trennung von Unter-, Mittel- und Oberstufe bzw. Abteilungen",
+      "Fachschaften können eigene Bereiche pflegen, ohne das Design zu zerstören",
+      "Hochseriöser Auftritt für die jährliche Anmeldephase"
+    ],
+    features: [
+      "Übersichtliches Mega-Menü für viele Fachbereiche",
+      "Stufen-Infobereiche (z. B. Erprobungsstufe / Oberstufe)",
+      "Geschützter Bereich für Vertretungspläne & Klausurpläne",
+      "Filterbarer iCal-Schulkalender"
+    ],
+    url: "https://rec.basketball.nrw/demo3"
+  },
+  campus: {
+    badge: "Edition 04 · Campus & Karriere",
+    title: "Campus & Karriere",
+    description: "Gebaut für Bildungseinrichtungen mit vielen Abschlüssen und Zielgruppen. Ein interaktiver Finder lotst Interessenten in wenigen Klicks zum passenden Bildungsgang.",
+    benefits: [
+      "Weniger Fehlberatungen dank klarem Bildungsgang-Finder",
+      "Digitale Vorab-Anmeldung reduziert Papierkram in der Verwaltung",
+      "Eigener Bereich für Ausbildungsbetriebe und Kammern"
+    ],
+    features: [
+      "Interaktiver Bildungsgang- & Abschluss-Finder",
+      "Online-Bewerbungs- & Anmeldemodul",
+      "Rollenbasierte Rechteverwaltung für Abteilungsleiter",
+      "Partner-Netzwerk für Ausbildungsbetriebe"
+    ],
+    url: "https://rec.basketball.nrw/demo5"
+  }
+};
+
+const drawer = document.getElementById('drawer');
+const backdrop = document.getElementById('backdrop');
+const demoBtn = document.getElementById('drawer-demo-btn');
+let lastFocused = null;
+
+function renderList(el, items) { el.innerHTML = items.map(t => `<li>${t}</li>`).join(''); }
+
+function openDrawer(key, trigger) {
+  const d = demoData[key]; if(!d) return;
+  lastFocused = trigger;
+  document.getElementById('drawer-badge').textContent = d.badge;
+  document.getElementById('drawer-title').textContent = d.title;
+  document.getElementById('drawer-description').textContent = d.description;
+  renderList(document.getElementById('drawer-benefits'), d.benefits);
+  renderList(document.getElementById('drawer-features'), d.features);
+  demoBtn.href = d.url;
+
+  drawer.classList.add('open');
+  backdrop.classList.add('show');
+  document.getElementById('drawer-close').focus();
+  document.addEventListener('keydown', onKeydown);
+}
+
+function closeDrawer() {
+  drawer.classList.remove('open');
+  backdrop.classList.remove('show');
+  document.removeEventListener('keydown', onKeydown);
+  if(lastFocused) lastFocused.focus();
+}
+
+function onKeydown(e) {
+  if(e.key === 'Escape') { closeDrawer(); return; }
+  if(e.key === 'Tab') {
+    const f = drawer.querySelectorAll('a[href], button:not([disabled])');
+    const first = f[0], last = f[f.length-1];
+    if(e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+}
+
+document.querySelectorAll('.card').forEach(c => c.addEventListener('click', () => openDrawer(c.getAttribute('data-demo'), c)));
+document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+backdrop.addEventListener('click', closeDrawer);
+document.getElementById('drawer-cta').addEventListener('click', closeDrawer);
+</script>
+</body>
+</html>
